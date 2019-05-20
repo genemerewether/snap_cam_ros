@@ -42,7 +42,6 @@ find_package(catkin REQUIRED COMPONENTS
   camera_info_manager
   dynamic_reconfigure
   image_transport
-  nodelet
   sensor_msgs
   snap_msgs
   )
@@ -55,10 +54,8 @@ catkin_package(
     camera_info_manager
     dynamic_reconfigure
     image_transport
-    nodelet
     sensor_msgs
     snap_msgs
-  LIBRARIES snap_cam_nodelet
   )
 
 add_definitions(-std=c++11) 
@@ -119,29 +116,6 @@ target_link_libraries(snap_cam_node
 add_dependencies(snap_cam_node ${PROJECT_NAME}_gencfg)
 add_dependencies(snap_cam_node ${catkin_EXPORTED_TARGETS})
 
-add_library(snap_cam_nodelet src/snap_cam_nodelet.cpp)
-add_dependencies(snap_cam_nodelet ${snap_cam_ros_EXPORTED_TARGETS})
-add_dependencies(snap_cam_nodelet ${catkin_EXPORTED_TARGETS})
-target_link_libraries(snap_cam_nodelet
-  ${Boost_LIBRARIES} 
-  ${catkin_LIBRARIES}
-  SnapdragonCameraManager
-  snap_cam
-  )
-add_dependencies(snap_cam_nodelet ${PROJECT_NAME}_gencfg)
-
-
-add_library(stereo_nodelet src/stereo_nodelet.cpp)
-add_dependencies(stereo_nodelet ${snap_cam_ros_EXPORTED_TARGETS})
-add_dependencies(stereo_nodelet ${catkin_EXPORTED_TARGETS})
-target_link_libraries(stereo_nodelet
-  ${Boost_LIBRARIES} 
-  ${catkin_LIBRARIES}
-  SnapdragonCameraManager
-  snap_cam
-  )
-add_dependencies(stereo_nodelet ${PROJECT_NAME}_gencfg)
-
 add_custom_command(
 TARGET snap_cam_node
 COMMAND echo "Setting the UID bit for the node to run with root privileges"
@@ -149,14 +123,11 @@ COMMAND sudo chown root ${CATKIN_DEVEL_PREFIX}/lib/${PROJECT_NAME}/snap_cam_node
 COMMAND sudo chmod +s ${CATKIN_DEVEL_PREFIX}/lib/${PROJECT_NAME}/snap_cam_node
 )
 
-install(TARGETS snap_cam snap_cam_node snap_cam_nodelet stereo_nodelet SnapdragonCameraManager
+install(TARGETS snap_cam snap_cam_node SnapdragonCameraManager
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-)
-install(FILES snap_cam_nodelet.xml stereo_nodelet.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

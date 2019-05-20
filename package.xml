@@ -45,7 +45,6 @@
   <build_depend>camera_info_manager</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>image_transport</build_depend>
-  <build_depend>nodelet</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>snap_msgs</build_depend>
 
@@ -53,12 +52,7 @@
   <run_depend>camera_info_manager</run_depend>
   <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>image_transport</run_depend>
-  <run_depend>nodelet</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>snap_msgs</run_depend>
 
-  <export>
-    <nodelet plugin="${prefix}/snap_cam_nodelet.xml"/>
-    <nodelet plugin="${prefix}/stereo_nodelet.xml"/>
-  </export>
 </package>
